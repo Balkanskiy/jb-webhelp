@@ -1,0 +1,48 @@
+.layout {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.block {
+  background-color: red;
+}
+
+.header {
+  min-height: 50px;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.title {
+  padding: 11px 25px 11px 20px;
+  color: white;
+  line-height: 1;
+  font-size: 14px;
+}
+
+.app {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.nav {
+  flex-grow: 1;
+  min-width: 100px;
+  max-width: 300px;
+  padding: 30px;
+}
+
+.content {
+  flex-grow: 3;
+  padding: 30px;
+  max-width: 920px;
+}
