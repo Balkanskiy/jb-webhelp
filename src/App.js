@@ -9,7 +9,9 @@ class App extends Component {
           <b className={css.title}>IntelliJ IDEA 2017.3! Help</b>
         </header>
         <div className={css.app}>
-          <div className={css.nav}>nav</div>
+          <div className={css.sideBar}>
+            <div className={css.menu}>nav</div>
+          </div>
           <div className={css.content}>
             Morbi malesuada dui dui, ut lacinia elit malesuada id. Quisque eu
             leo faucibus, posuere dui sit amet, aliquet tortor. Suspendisse
