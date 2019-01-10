@@ -1,11 +1,15 @@
 const express = require("express");
+const cors = require("cors");
 const data = require("./data.json");
 
 const app = express();
-const port = 8080;
+const port = 5000;
 
-app.get("/", (request, response) => {
-  response.json(data);
+app.use(cors());
+app.get("/api/users", (request, response) => {
+  setTimeout(() => {
+    response.json(data);
+  }, 3000);
 });
 
 app.listen(port, err => {

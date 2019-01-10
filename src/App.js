@@ -1,7 +1,22 @@
 import React, { Component } from "react";
+import axios from "axios";
 import css from "./styles/app.module.css";
+const http = axios.create({
+  baseURL: "http://localhost:5000/"
+});
 
 class App extends Component {
+  state = { data: {} };
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData = async () => {
+    const { data } = await http.get("api/users");
+    this.setState({ data });
+  };
+
   render() {
     return (
       <div className={css.layout}>
