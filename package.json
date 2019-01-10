@@ -15,10 +15,7 @@
   "scripts": {
     "server": "node server/index.js",
     "start": "npm run server & react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "precommit": "pretty-quick --staged"
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
