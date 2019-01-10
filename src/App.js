@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import css from "./styles.module.css";
-const http = axios.create({
-  baseURL: "http://localhost:5000/"
-});
+
+const http = axios.create();
 
 class App extends Component {
   state = { data: {} };
