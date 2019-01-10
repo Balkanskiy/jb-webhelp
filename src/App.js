@@ -1,21 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
+import Index from "./components/SideMenu/";
 import css from "./styles.module.css";
 
-const http = axios.create();
-
 class App extends Component {
-  state = { data: {} };
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData = async () => {
-    const { data } = await http.get("/help/idea/2018.3/HelpTOC.json");
-    this.setState({ data });
-  };
-
   render() {
     return (
       <div className={css.layout}>
@@ -23,9 +10,7 @@ class App extends Component {
           <b className={css.title}>IntelliJ IDEA 2017.3! Help</b>
         </header>
         <div className={css.app}>
-          <div className={css.sideBar}>
-            <div className={css.menu}>nav</div>
-          </div>
+          <Index />
           <div className={css.content}>
             Morbi malesuada dui dui, ut lacinia elit malesuada id. Quisque eu
             leo faucibus, posuere dui sit amet, aliquet tortor. Suspendisse

@@ -51,29 +51,6 @@
   width: 100%;
 }
 
-.sideBar {
-  background-color: #fafafa;
-  border-right: #e6e6e6 solid 1px;
-  max-width: 300px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  transition: max-width 0.2s ease;
-}
-
-.menu {
-  padding: 70px 20px;
-  line-height: 1;
-}
-
-@media (max-width: 768px) {
-  .sideBar {
-    max-width: 150px;
-  }
-}
-
 .content {
   padding: 20px;
   max-width: 920px;

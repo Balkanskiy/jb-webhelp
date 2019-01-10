@@ -1,0 +1,27 @@
+.sideMenu {
+  background-color: #fafafa;
+  border-right: #e6e6e6 solid 1px;
+  max-width: 300px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  transition: max-width 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .sideMenu {
+    max-width: 150px;
+  }
+}
+
+.menu {
+  padding: 70px 20px;
+  line-height: 1;
+}
+
+.placeholder {
+  position: relative;
+  max-width: 100%;
+}
