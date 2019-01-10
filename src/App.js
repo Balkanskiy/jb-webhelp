@@ -12,7 +12,7 @@ class App extends Component {
   }
 
   fetchData = async () => {
-    const { data } = await http.get("api/users");
+    const { data } = await http.get("/help/idea/2018.3/HelpTOC.json");
     this.setState({ data });
   };
 
