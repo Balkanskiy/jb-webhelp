@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import css from "./styles/app.module.css";
+import css from "./styles.module.css";
 const http = axios.create({
   baseURL: "http://localhost:5000/"
 });
