@@ -1,0 +1,37 @@
+.treeNode {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 6px 6px 6px 6px;
+  cursor: pointer;
+  position: relative;
+}
+
+.treeNode:hover {
+  text-decoration: underline;
+}
+
+.nodeIcon {
+  padding: 5px;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  position: absolute;
+}
+
+.nodeIconOpened {
+  transform: rotate(180deg);
+}
+
+.title {
+  padding-left: 20px;
+}
+
+.titleSelected {
+  font-weight: bold;
+}
+
+.selectedNode {
+  background: #f0f0f0;
+}
