@@ -19,7 +19,7 @@ const TreeNode = props => {
     selectedNodeId
   } = props;
 
-  const isNodeSelected = node.id === selectedNodeId && css.titleSelected;
+  const isNodeSelected = node.id === selectedNodeId;
 
   return (
     <React.Fragment>
@@ -28,9 +28,7 @@ const TreeNode = props => {
         style={{ paddingLeft: getPaddingLeft(level, node.type) }}
       >
         <div
-          className={[css.nodeIcon, node.isOpened && css.nodeIconOpened].join(
-            " "
-          )}
+          className={[css.icon, node.isOpened && css.iconOpened].join(" ")}
           onClick={() => onToggle(node)}
         >
           {node.pages && <Arrow />}
@@ -47,11 +45,17 @@ const TreeNode = props => {
           {node.title}
         </span>
       </div>
-
-      {node.isOpened &&
-        getChildNodes(node).map(childNode => (
-          <TreeNode {...props} node={childNode} level={level + 1} />
-        ))}
+      <div className={[css.child, node.isOpened && css.childOpened].join(" ")}>
+        {node.isOpened &&
+          getChildNodes(node).map(childNode => (
+            <TreeNode
+              {...props}
+              node={childNode}
+              key={childNode.id}
+              level={level + 1}
+            />
+          ))}
+      </div>
     </React.Fragment>
   );
 };

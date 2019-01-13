@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import values from "lodash/values";
 import TreeNode from "../TreeNode/index.js";
 import PropTypes from "prop-types";
@@ -7,7 +7,7 @@ import Placeholder from "./SvgLoadingPlaceholder";
 
 const http = axios.create();
 
-export default class Tree extends Component {
+export default class Tree extends PureComponent {
   state = {
     nodes: {},
     selectedNodeId: null,
@@ -69,6 +69,7 @@ export default class Tree extends Component {
         ) : (
           rootNodes.map(node => (
             <TreeNode
+              key={node.id}
               node={node}
               getChildNodes={this.getChildNodes}
               onToggle={this.toggleNodeOpening}
