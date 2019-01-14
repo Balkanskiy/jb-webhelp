@@ -16,16 +16,19 @@ const TreeNode = props => {
     level,
     onToggle,
     onNodeSelect,
-    selectedNodeId
+    selectedNodeId,
+    tabIndex
   } = props;
 
   const isNodeSelected = node.id === selectedNodeId;
 
   return (
     <React.Fragment>
-      <div
+      <li
         className={[css.treeNode, isNodeSelected && css.selectedNode].join(" ")}
         style={{ paddingLeft: getPaddingLeft(level, node.type) }}
+        onKeyPress={() => onNodeSelect(node)}
+        tabIndex={tabIndex}
       >
         <div
           className={[css.icon, node.isOpened && css.iconOpened].join(" ")}
@@ -44,8 +47,8 @@ const TreeNode = props => {
         >
           {node.title}
         </span>
-      </div>
-      <div className={[css.child, node.isOpened && css.childOpened].join(" ")}>
+      </li>
+      <ul className={[css.child, node.isOpened && css.childOpened].join(" ")}>
         {node.isOpened &&
           getChildNodes(node).map(childNode => (
             <TreeNode
@@ -55,7 +58,7 @@ const TreeNode = props => {
               level={level + 1}
             />
           ))}
-      </div>
+      </ul>
     </React.Fragment>
   );
 };
@@ -65,7 +68,8 @@ TreeNode.propTypes = {
   getChildNodes: PropTypes.func.isRequired,
   level: PropTypes.number.isRequired,
   onToggle: PropTypes.func.isRequired,
-  onNodeSelect: PropTypes.func.isRequired
+  onNodeSelect: PropTypes.func.isRequired,
+  tabIndex: PropTypes.number.isRequired
 };
 
 TreeNode.defaultProps = {

@@ -4,6 +4,7 @@ import TreeNode from "../TreeNode/index.js";
 import PropTypes from "prop-types";
 import axios from "axios";
 import Placeholder from "./SvgLoadingPlaceholder";
+import css from "./styles.module.css";
 
 const http = axios.create();
 
@@ -25,7 +26,7 @@ export default class Tree extends PureComponent {
           data: {
             entities: { pages }
           }
-        } = await http.get("/help/idea/2018.3/HelpTOC.json");
+        } = await http.get("/help/idea");
         this.setState({ nodes: pages });
       } catch (e) {
         console.error(e);
@@ -61,16 +62,17 @@ export default class Tree extends PureComponent {
     const rootNodes = this.getRootNodes();
 
     return (
-      <div>
+      <ul>
         {isLoading ? (
-          <React.Fragment>
+          <div className={css.placeholder}>
             <Placeholder />
-          </React.Fragment>
+          </div>
         ) : (
-          rootNodes.map(node => (
+          rootNodes.map((node, index) => (
             <TreeNode
               key={node.id}
               node={node}
+              tabIndex={index}
               getChildNodes={this.getChildNodes}
               onToggle={this.toggleNodeOpening}
               onNodeOpening={this.toggleNodeOpening}
@@ -79,7 +81,7 @@ export default class Tree extends PureComponent {
             />
           ))
         )}
-      </div>
+      </ul>
     );
   }
 }
