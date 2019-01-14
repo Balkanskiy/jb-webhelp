@@ -5,17 +5,23 @@ export default class Content extends PureComponent {
   render() {
     return (
       <div className={css.content}>
-        Morbi malesuada dui dui, ut lacinia elit malesuada id. Quisque eu leo
-        faucibus, posuere dui sit amet, aliquet tortor. Suspendisse mauris
-        lacus, rhoncus quis sollicitudin in, bibendum a quam. Donec cursus urna
-        risus, sit amet faucibus lacus facilisis at. Phasellus mollis tempor
-        velit ac finibus. Morbi volutpat porttitor dolor vitae finibus. Proin
-        pellentesque dignissim metus, non rutrum arcu blandit vitae. Sed commodo
-        mauris et dignissim euismod. In pulvinar sodales purus. Nulla mollis
-        elit urna, lacinia tincidunt mi aliquam id. Sed vel ex facilisis,
-        placerat orci id, pulvinar odio. Maecenas fermentum massa quis libero
-        hendrerit commodo. Proin nisl sapien, aliquam at leo id, vulputate
-        varius lectus. Vivamus at egestas urna.
+        <h1>Web-Help Visual Guidelines</h1>
+        <p>
+          It is always better to have some synopsis, written on top of the page,
+          in slightly bigger font, so it is clear, what this article is about,
+          and also it allows to separate 2nd level header from the 1st level.
+        </p>
+        <h2>Second Level Header</h2>
+        <p>
+          Lorem ipsum dolor sit amet, Link Goes Here, duis voluptate velit esse
+          cillum dolore empor incididunt ut labore et dolore magna aliqua. Ut
+          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+          ut aliquip ex ea commodo consequat. Duis aute Alt + Shift + Enter
+          irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+          fugiat nulla pariatur. Here’s an example of UI Component Control, sint
+          occaecat cupidatat non proident, file
+          path:C:\Windows\System32\Petya.exe
+        </p>
       </div>
     );
   }

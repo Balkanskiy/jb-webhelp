@@ -13,10 +13,6 @@ ul {
   position: relative;
 }
 
-.treeNode:hover {
-  text-decoration: underline;
-}
-
 .icon {
   padding: 10px 5px;
   transition: transform 0.2s ease;
@@ -29,13 +25,17 @@ ul {
   transform: rotate(180deg);
 }
 
-.title {
+.menuItem {
   padding: 5px 20px;
-  width: 100%;
   font-size: 12px;
+  line-height: 1.5;
 }
 
-.titleSelected {
+.menuItem:hover {
+  text-decoration: underline;
+}
+
+.menuItemSelected {
   font-weight: bold;
 }
 

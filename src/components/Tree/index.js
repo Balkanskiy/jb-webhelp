@@ -24,10 +24,10 @@ export default class Tree extends PureComponent {
       try {
         const {
           data: {
-            entities: { pages }
+            entities: { pages, anchors }
           }
         } = await http.get("/help/idea");
-        this.setState({ nodes: pages });
+        this.setState({ nodes: pages, anchors });
       } catch (e) {
         console.error(e);
       } finally {
@@ -57,8 +57,12 @@ export default class Tree extends PureComponent {
     this.setState({ selectedNodeId: node.id }, () => this.props.onSelect(node));
   };
 
+  selectAnchor = node => {
+    console.log(node);
+  };
+
   render() {
-    const { isLoading, selectedNodeId } = this.state;
+    const { anchors, isLoading, selectedNodeId } = this.state;
     const rootNodes = this.getRootNodes();
 
     return (
@@ -72,11 +76,13 @@ export default class Tree extends PureComponent {
             <TreeNode
               key={node.id}
               node={node}
+              anchors={anchors}
               tabIndex={index}
               getChildNodes={this.getChildNodes}
               onToggle={this.toggleNodeOpening}
               onNodeOpening={this.toggleNodeOpening}
               onNodeSelect={this.selectNode}
+              onAnchorSelect={this.selectAnchor}
               selectedNodeId={selectedNodeId}
             />
           ))

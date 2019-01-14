@@ -12,53 +12,83 @@ const getPaddingLeft = (level, type) => {
 const TreeNode = props => {
   const {
     node,
+    anchors,
     getChildNodes,
     level,
     onToggle,
     onNodeSelect,
+    onAnchorSelect,
     selectedNodeId,
     tabIndex
   } = props;
 
   const isNodeSelected = node.id === selectedNodeId;
+  const itemClassNames = [
+    css.treeNode,
+    isNodeSelected && css.selectedNode
+  ].join(" ");
+  const iconClassNames = [css.icon, node.isOpened && css.iconOpened].join(" ");
+  const titleClassNames = [
+    css.menuItem,
+    node.id === selectedNodeId && css.menuItemSelected
+  ].join(" ");
+  const childClassNames = [css.child, node.isOpened && css.childOpened].join(
+    " "
+  );
 
   return (
     <React.Fragment>
       <li
-        className={[css.treeNode, isNodeSelected && css.selectedNode].join(" ")}
+        className={itemClassNames}
         style={{ paddingLeft: getPaddingLeft(level, node.type) }}
-        onKeyPress={() => onNodeSelect(node)}
-        tabIndex={tabIndex}
       >
-        <div
-          className={[css.icon, node.isOpened && css.iconOpened].join(" ")}
-          onClick={() => onToggle(node)}
-        >
+        <div className={iconClassNames} onClick={() => onToggle(node)}>
           {node.pages && <Arrow />}
         </div>
 
-        <span
-          className={[
-            css.title,
-            node.id === selectedNodeId && css.titleSelected
-          ].join(" ")}
-          role="button"
-          onClick={() => onNodeSelect(node)}
-        >
-          {node.title}
-        </span>
+        <div>
+          <span
+            className={titleClassNames}
+            role="link"
+            onClick={() => onNodeSelect(node)}
+            onKeyPress={() => onNodeSelect(node)}
+            tabIndex={tabIndex}
+          >
+            {node.title}
+          </span>
+          {node.anchors && isNodeSelected && (
+            <ul>
+              {node.anchors.map(anchor => {
+                return (
+                  <li
+                    key={anchor.id}
+                    className={css.menuItem}
+                    style={{ paddingLeft: getPaddingLeft(level, node.type) }}
+                    role="button"
+                    onClick={() => onAnchorSelect(node)}
+                    onKeyPress={() => onAnchorSelect(node)}
+                  >
+                    {anchors[anchor].title}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
       </li>
-      <ul className={[css.child, node.isOpened && css.childOpened].join(" ")}>
-        {node.isOpened &&
-          getChildNodes(node).map(childNode => (
-            <TreeNode
-              {...props}
-              node={childNode}
-              key={childNode.id}
-              level={level + 1}
-            />
-          ))}
-      </ul>
+      {node.pages && (
+        <ul className={childClassNames}>
+          {node.isOpened &&
+            getChildNodes(node).map(childNode => (
+              <TreeNode
+                {...props}
+                node={childNode}
+                key={childNode.id}
+                level={level + 1}
+              />
+            ))}
+        </ul>
+      )}
     </React.Fragment>
   );
 };
@@ -69,7 +99,9 @@ TreeNode.propTypes = {
   level: PropTypes.number.isRequired,
   onToggle: PropTypes.func.isRequired,
   onNodeSelect: PropTypes.func.isRequired,
-  tabIndex: PropTypes.number.isRequired
+  onAnchorSelect: PropTypes.func.isRequired,
+  tabIndex: PropTypes.number.isRequired,
+  anchors: PropTypes.object.isRequired
 };
 
 TreeNode.defaultProps = {
