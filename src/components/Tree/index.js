@@ -58,11 +58,13 @@ export default class Tree extends PureComponent {
   };
 
   selectAnchor = node => {
-    console.log(node);
+    this.setState({ selectedAnchorId: node.id }, () =>
+      this.props.onSelect(node)
+    );
   };
 
   render() {
-    const { anchors, isLoading, selectedNodeId } = this.state;
+    const { anchors, isLoading, selectedNodeId, selectedAnchorId } = this.state;
     const rootNodes = this.getRootNodes();
 
     return (
@@ -72,18 +74,18 @@ export default class Tree extends PureComponent {
             <Placeholder />
           </div>
         ) : (
-          rootNodes.map((node, index) => (
+          rootNodes.map(node => (
             <TreeNode
               key={node.id}
               node={node}
               anchors={anchors}
-              tabIndex={index}
               getChildNodes={this.getChildNodes}
               onToggle={this.toggleNodeOpening}
               onNodeOpening={this.toggleNodeOpening}
               onNodeSelect={this.selectNode}
               onAnchorSelect={this.selectAnchor}
               selectedNodeId={selectedNodeId}
+              selectedAnchorId={selectedAnchorId}
             />
           ))
         )}

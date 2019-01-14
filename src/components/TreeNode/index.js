@@ -19,10 +19,11 @@ const TreeNode = props => {
     onNodeSelect,
     onAnchorSelect,
     selectedNodeId,
-    tabIndex
+    selectedAnchorId
   } = props;
 
   const isNodeSelected = node.id === selectedNodeId;
+  const isAnchorSelected = node.id === selectedAnchorId;
   const itemClassNames = [
     css.treeNode,
     isNodeSelected && css.selectedNode
@@ -31,6 +32,10 @@ const TreeNode = props => {
   const titleClassNames = [
     css.menuItem,
     node.id === selectedNodeId && css.menuItemSelected
+  ].join(" ");
+  const anchorClassNames = [
+    css.menuItem,
+    node.id === isAnchorSelected && css.menuItemSelected
   ].join(" ");
   const childClassNames = [css.child, node.isOpened && css.childOpened].join(
     " "
@@ -52,7 +57,7 @@ const TreeNode = props => {
             role="link"
             onClick={() => onNodeSelect(node)}
             onKeyPress={() => onNodeSelect(node)}
-            tabIndex={tabIndex}
+            tabIndex={0}
           >
             {node.title}
           </span>
@@ -62,9 +67,10 @@ const TreeNode = props => {
                 return (
                   <li
                     key={anchor.id}
-                    className={css.menuItem}
+                    className={anchorClassNames}
                     style={{ paddingLeft: getPaddingLeft(level, node.type) }}
                     role="button"
+                    tabIndex={0}
                     onClick={() => onAnchorSelect(node)}
                     onKeyPress={() => onAnchorSelect(node)}
                   >
