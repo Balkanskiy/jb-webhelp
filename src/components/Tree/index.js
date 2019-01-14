@@ -11,7 +11,8 @@ const http = axios.create();
 export default class Tree extends PureComponent {
   state = {
     nodes: {},
-    selectedNodeId: null,
+    selectedNodeId: '',
+    selectedAnchorId: '',
     isLoading: false
   };
 
@@ -54,7 +55,7 @@ export default class Tree extends PureComponent {
   };
 
   selectNode = node => {
-    this.setState({ selectedNodeId: node.id, selectedAnchorId: null }, () =>
+    this.setState({ selectedNodeId: node.id, selectedAnchorId: '' }, () =>
       this.props.onSelect(node)
     );
   };

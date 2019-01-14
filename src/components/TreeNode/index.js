@@ -60,7 +60,7 @@ const TreeNode = props => {
                 const currentAnchor = anchors[anchor];
                 return (
                   <li
-                    key={anchor.id}
+                    key={currentAnchor.id}
                     role="button"
                     tabIndex={0}
                     onClick={() => onAnchorSelect(currentAnchor)}
