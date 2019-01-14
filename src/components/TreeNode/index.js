@@ -55,7 +55,7 @@ const TreeNode = props => {
             {node.title}
           </span>
           {node.anchors && isNodeSelected && (
-            <ul className={css.anchors}>
+            <ul>
               {node.anchors.map(anchor => {
                 const currentAnchor = anchors[anchor];
                 return (
@@ -81,18 +81,20 @@ const TreeNode = props => {
           )}
         </div>
       </li>
-      {node.pages && node.isOpened && (
-        <ul className={childClassNames}>
-          {getChildNodes(node).map(childNode => (
-            <TreeNode
-              {...props}
-              node={childNode}
-              key={childNode.id}
-              level={level + 1}
-            />
-          ))}
-        </ul>
-      )}
+      <div className={childClassNames}>
+        {node.pages && node.isOpened && (
+          <ul>
+            {getChildNodes(node).map(childNode => (
+              <TreeNode
+                {...props}
+                node={childNode}
+                key={childNode.id}
+                level={level + 1}
+              />
+            ))}
+          </ul>
+        )}
+      </div>
     </React.Fragment>
   );
 };

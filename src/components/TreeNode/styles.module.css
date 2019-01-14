@@ -1,7 +1,7 @@
 ul {
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 15px 0;
 }
 
 .node {
@@ -51,19 +51,17 @@ ul {
   font-weight: bold;
 }
 
+.childPane {
+}
+
 .child {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease 0.1s;
-  padding-bottom: 15px;
 }
 
 .childOpened {
-  max-height: 100%;
-}
-
-.anchors {
-  padding-bottom: 15px;
+  max-height: 10000px;
 }
 
 .anchor {

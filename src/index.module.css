@@ -6,11 +6,24 @@
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 :global code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+h1 {
+  font-size: 44px;
+}
+
+p {
+  font-size: 20px;
+}
+
+h2 {
+  font-size: 36px;
 }
 
 .layout {
