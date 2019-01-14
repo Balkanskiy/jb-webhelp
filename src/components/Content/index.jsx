@@ -4,7 +4,7 @@ import css from "../../index.module.css";
 export default class Content extends PureComponent {
   render() {
     return (
-      <div className={css.content}>
+      <article className={css.content}>
         <h1>Web-Help Visual Guidelines</h1>
         <p>
           It is always better to have some synopsis, written on top of the page,
@@ -22,7 +22,7 @@ export default class Content extends PureComponent {
           occaecat cupidatat non proident, file
           path:C:\Windows\System32\Petya.exe
         </p>
-      </div>
+      </article>
     );
   }
 }
