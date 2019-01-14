@@ -27,7 +27,7 @@ export default class Tree extends PureComponent {
           data: {
             entities: { pages, anchors }
           }
-        } = await http.get("/help/idea");
+        } = await http.get("/help/idea/2018.3/HelpTOC.json");
         this.setState({ nodes: pages, anchors });
       } catch (e) {
         console.error(e);

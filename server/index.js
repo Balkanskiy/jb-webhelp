@@ -6,7 +6,7 @@ const app = express();
 const port = 5000;
 
 app.use(cors());
-app.get("/help/idea", (request, response) => {
+app.get("/help/idea/2018.3/HelpTOC.json", (request, response) => {
   setTimeout(() => {
     response.json(data);
   }, 3000);
