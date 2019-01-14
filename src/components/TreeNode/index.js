@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Arrow from "./arrow";
+import Icon from "./icon";
 import css from "./styles.module.css";
 
 const getPaddingLeft = (level, type) => {
@@ -24,33 +24,39 @@ const TreeNode = props => {
 
   const isNodeSelected = node.id === selectedNodeId;
   const isAnchorSelected = node.id === selectedAnchorId;
-  const itemClassNames = [
-    css.treeNode,
-    isNodeSelected && css.selectedNode
-  ].join(" ");
-  const iconClassNames = [css.icon, node.isOpened && css.iconOpened].join(" ");
-  const titleClassNames = [
-    css.menuItem,
-    node.id === selectedNodeId && css.menuItemSelected
-  ].join(" ");
-  const anchorClassNames = [
-    css.menuItem,
-    node.id === isAnchorSelected && css.menuItemSelected
-  ].join(" ");
-  const childClassNames = [css.child, node.isOpened && css.childOpened].join(
+
+  const nodeStyles = {
+    className: [css.node, isNodeSelected ? css.nodeSelected : []].join(" "),
+    style: { paddingLeft: getPaddingLeft(level, node.type) }
+  };
+
+  const iconClassNames = [css.icon, node.isOpened ? css.iconOpened : null].join(
     " "
   );
+  const titleClassNames = [
+    css.title,
+    node.id === selectedNodeId ? css.titleSelected : null
+  ].join(" ");
+
+  const anchorStyles = {
+    className: [
+      css.title,
+      node.id === selectedNodeId ? css.titleSelected : null
+    ].join(" "),
+    style: { paddingLeft: getPaddingLeft(level, node.type) }
+  };
+
+  const childClassNames = [
+    css.child,
+    node.isOpened ? css.childOpened : null
+  ].join(" ");
 
   return (
     <React.Fragment>
-      <li
-        className={itemClassNames}
-        style={{ paddingLeft: getPaddingLeft(level, node.type) }}
-      >
-        <div className={iconClassNames} onClick={() => onToggle(node)}>
-          {node.pages && <Arrow />}
-        </div>
-
+      <li {...nodeStyles}>
+        {node.pages && (
+          <Icon className={iconClassNames} onClick={() => onToggle(node)} />
+        )}
         <div>
           <span
             className={titleClassNames}
@@ -67,12 +73,11 @@ const TreeNode = props => {
                 return (
                   <li
                     key={anchor.id}
-                    className={anchorClassNames}
-                    style={{ paddingLeft: getPaddingLeft(level, node.type) }}
                     role="button"
                     tabIndex={0}
                     onClick={() => onAnchorSelect(node)}
                     onKeyPress={() => onAnchorSelect(node)}
+                    {...anchorStyles}
                   >
                     {anchors[anchor].title}
                   </li>
@@ -82,17 +87,16 @@ const TreeNode = props => {
           )}
         </div>
       </li>
-      {node.pages && (
+      {node.pages && node.isOpened && (
         <ul className={childClassNames}>
-          {node.isOpened &&
-            getChildNodes(node).map(childNode => (
-              <TreeNode
-                {...props}
-                node={childNode}
-                key={childNode.id}
-                level={level + 1}
-              />
-            ))}
+          {getChildNodes(node).map(childNode => (
+            <TreeNode
+              {...props}
+              node={childNode}
+              key={childNode.id}
+              level={level + 1}
+            />
+          ))}
         </ul>
       )}
     </React.Fragment>
@@ -106,7 +110,6 @@ TreeNode.propTypes = {
   onToggle: PropTypes.func.isRequired,
   onNodeSelect: PropTypes.func.isRequired,
   onAnchorSelect: PropTypes.func.isRequired,
-  tabIndex: PropTypes.number.isRequired,
   anchors: PropTypes.object.isRequired
 };
 
