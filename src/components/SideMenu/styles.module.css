@@ -3,14 +3,11 @@
   border-right: #e6e6e6 solid 1px;
   max-width: 300px;
   width: 100%;
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: 50px;
   left: 0;
-  height: 100vh;
+  height: calc(100vh - 50px);
   transition: max-width 0.2s ease;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
   overflow-y: auto;
 }
 
@@ -22,7 +19,6 @@
 
 .menu {
   position: relative;
-  margin-top: 50px;
   padding: 20px 0;
   line-height: 1;
 }
