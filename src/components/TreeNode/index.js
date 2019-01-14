@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import Icon from "./icon";
 import css from "./styles.module.css";
 
-const getPaddingLeft = (level, type) => {
-  let paddingLeft = level * 20 + 20;
-  if (type === "file") paddingLeft += 20;
-  return paddingLeft;
-};
+const getPaddingLeft = level => level * 20 + 5;
 
 const TreeNode = props => {
   const {
@@ -23,7 +19,6 @@ const TreeNode = props => {
   } = props;
 
   const isNodeSelected = node.id === selectedNodeId;
-  const isAnchorSelected = node.id === selectedAnchorId;
 
   const nodeStyles = {
     className: [css.node, isNodeSelected ? css.nodeSelected : []].join(" "),
@@ -35,16 +30,8 @@ const TreeNode = props => {
   );
   const titleClassNames = [
     css.title,
-    node.id === selectedNodeId ? css.titleSelected : null
+    isNodeSelected ? css.titleSelected : null
   ].join(" ");
-
-  const anchorStyles = {
-    className: [
-      css.title,
-      node.id === selectedNodeId ? css.titleSelected : null
-    ].join(" "),
-    style: { paddingLeft: getPaddingLeft(level, node.type) }
-  };
 
   const childClassNames = [
     css.child,
@@ -57,7 +44,7 @@ const TreeNode = props => {
         {node.pages && (
           <Icon className={iconClassNames} onClick={() => onToggle(node)} />
         )}
-        <div>
+        <div className={css.text}>
           <span
             className={titleClassNames}
             role="link"
@@ -68,18 +55,25 @@ const TreeNode = props => {
             {node.title}
           </span>
           {node.anchors && isNodeSelected && (
-            <ul>
+            <ul className={css.anchors}>
               {node.anchors.map(anchor => {
+                const currentAnchor = anchors[anchor];
                 return (
                   <li
                     key={anchor.id}
                     role="button"
                     tabIndex={0}
-                    onClick={() => onAnchorSelect(node)}
-                    onKeyPress={() => onAnchorSelect(node)}
-                    {...anchorStyles}
+                    onClick={() => onAnchorSelect(currentAnchor)}
+                    onKeyPress={() => onAnchorSelect(currentAnchor)}
+                    className={[
+                      css.anchor,
+                      currentAnchor.id === selectedAnchorId
+                        ? css.anchorSelected
+                        : null
+                    ].join(" ")}
+                    style={{ paddingLeft: "35px" }}
                   >
-                    {anchors[anchor].title}
+                    {currentAnchor.title}
                   </li>
                 );
               })}
@@ -107,6 +101,8 @@ TreeNode.propTypes = {
   node: PropTypes.object.isRequired,
   getChildNodes: PropTypes.func.isRequired,
   level: PropTypes.number.isRequired,
+  selectedNodeId: PropTypes.string.isRequired,
+  selectedAnchorId: PropTypes.string.isRequired,
   onToggle: PropTypes.func.isRequired,
   onNodeSelect: PropTypes.func.isRequired,
   onAnchorSelect: PropTypes.func.isRequired,

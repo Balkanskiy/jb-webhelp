@@ -54,12 +54,14 @@ export default class Tree extends PureComponent {
   };
 
   selectNode = node => {
-    this.setState({ selectedNodeId: node.id }, () => this.props.onSelect(node));
+    this.setState({ selectedNodeId: node.id, selectedAnchorId: null }, () =>
+      this.props.onSelect(node)
+    );
   };
 
-  selectAnchor = node => {
-    this.setState({ selectedAnchorId: node.id }, () =>
-      this.props.onSelect(node)
+  selectAnchor = anchor => {
+    this.setState({ selectedAnchorId: anchor.id }, () =>
+      this.props.onSelect(anchor)
     );
   };
 

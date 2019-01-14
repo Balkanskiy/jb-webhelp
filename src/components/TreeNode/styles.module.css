@@ -19,7 +19,7 @@ ul {
 }
 
 .icon {
-  padding: 10px 5px;
+  padding: 11px 5px;
   transition: transform 0.2s ease;
   display: flex;
   align-items: center;
@@ -30,10 +30,17 @@ ul {
   transform: rotate(180deg);
 }
 
+.text {
+  flex: 1 1 auto;
+}
+
 .title {
-  padding: 5px 20px;
-  font-size: 12px;
-  line-height: 1.5;
+  padding: 5px 17px;
+  font-size: 14px;
+  line-height: 19px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .title:hover {
@@ -48,8 +55,27 @@ ul {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease 0.1s;
+  padding-bottom: 15px;
 }
 
 .childOpened {
-  max-height: 100vh;
+  max-height: 100%;
+}
+
+.anchors {
+  padding-bottom: 15px;
+}
+
+.anchor {
+  padding: 5px 17px;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.anchor:hover {
+  text-decoration: underline;
+}
+
+.anchorSelected {
+  font-weight: bold;
 }
