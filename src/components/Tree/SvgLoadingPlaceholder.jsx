@@ -2,7 +2,7 @@ import React from "react";
 
 const SvgLoadingPlaceholder = props => (
   <React.Fragment>
-    <svg width="100%" height="120px" {...props}>
+    <svg width="100%" height="110px" {...props}>
       <defs>
         <clipPath id="LoadingPlaceholder_svg__a">
           <path clipRule="evenodd" d="M-855-96H344v418H-855z" />
