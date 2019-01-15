@@ -5,6 +5,11 @@ import css from "./styles.module.css";
 
 const getPaddingLeft = level => level * 20 + 5;
 
+const KEY_CODES = {
+  ARROW_RIGHT: 39,
+  ARROW_LEFT: 37
+};
+
 const TreeNode = props => {
   const {
     node,
@@ -38,6 +43,26 @@ const TreeNode = props => {
     node.isOpened ? css.childOpened : null
   ].join(" ");
 
+  const keyBoardControl = ({ type, keyCode }) => {
+    switch (type) {
+      case "keydown": {
+        if (
+          keyCode === KEY_CODES.ARROW_RIGHT ||
+          keyCode === KEY_CODES.ARROW_LEFT
+        ) {
+          onToggle(node);
+        }
+        break;
+      }
+      case "keypress": {
+        onNodeSelect(node);
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
   return (
     <React.Fragment>
       <li {...nodeStyles}>
@@ -49,7 +74,8 @@ const TreeNode = props => {
             className={titleClassNames}
             role="link"
             onClick={() => onNodeSelect(node)}
-            onKeyPress={() => onNodeSelect(node)}
+            onKeyDown={keyBoardControl}
+            onKeyPress={keyBoardControl}
             tabIndex={0}
           >
             {node.title}
