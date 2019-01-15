@@ -3,17 +3,20 @@ import values from "lodash/values";
 import TreeNode from "../TreeNode/index.js";
 import PropTypes from "prop-types";
 import axios from "axios";
+import SearchInput, { createFilter } from "react-search-input";
 import Placeholder from "./SvgLoadingPlaceholder";
 import css from "./styles.module.css";
 
 const http = axios.create();
+const KEYS_TO_FILTERS = ["title", "id"];
 
 export default class Tree extends PureComponent {
   state = {
     nodes: {},
-    selectedNodeId: '',
-    selectedAnchorId: '',
-    isLoading: false
+    selectedNodeId: "",
+    selectedAnchorId: "",
+    isLoading: false,
+    searchTerm: ""
   };
 
   componentDidMount() {
@@ -55,7 +58,7 @@ export default class Tree extends PureComponent {
   };
 
   selectNode = node => {
-    this.setState({ selectedNodeId: node.id, selectedAnchorId: '' }, () =>
+    this.setState({ selectedNodeId: node.id, selectedAnchorId: "" }, () =>
       this.props.onSelect(node)
     );
   };
@@ -66,33 +69,49 @@ export default class Tree extends PureComponent {
     );
   };
 
+  searchUpdated = term => {
+    debugger;
+    this.setState({ searchTerm: term });
+  };
+
   render() {
-    const { anchors, isLoading, selectedNodeId, selectedAnchorId } = this.state;
+    const {
+      anchors,
+      isLoading,
+      selectedNodeId,
+      selectedAnchorId,
+      searchTerm
+    } = this.state;
     const rootNodes = this.getRootNodes();
 
+    const filteredNodes = rootNodes.filter(createFilter(searchTerm, "id"));
+
     return (
-      <ul>
-        {isLoading ? (
-          <div className={css.placeholder}>
-            <Placeholder />
-          </div>
-        ) : (
-          rootNodes.map(node => (
-            <TreeNode
-              key={node.id}
-              node={node}
-              anchors={anchors}
-              getChildNodes={this.getChildNodes}
-              onToggle={this.toggleNodeOpening}
-              onNodeOpening={this.toggleNodeOpening}
-              onNodeSelect={this.selectNode}
-              onAnchorSelect={this.selectAnchor}
-              selectedNodeId={selectedNodeId}
-              selectedAnchorId={selectedAnchorId}
-            />
-          ))
-        )}
-      </ul>
+      <div>
+        <SearchInput className="search-input" onChange={this.searchUpdated} />
+        <ul>
+          {isLoading ? (
+            <div className={css.placeholder}>
+              <Placeholder />
+            </div>
+          ) : (
+            filteredNodes.map(node => (
+              <TreeNode
+                key={node.id}
+                node={node}
+                anchors={anchors}
+                getChildNodes={this.getChildNodes}
+                onToggle={this.toggleNodeOpening}
+                onNodeOpening={this.toggleNodeOpening}
+                onNodeSelect={this.selectNode}
+                onAnchorSelect={this.selectAnchor}
+                selectedNodeId={selectedNodeId}
+                selectedAnchorId={selectedAnchorId}
+              />
+            ))
+          )}
+        </ul>
+      </div>
     );
   }
 }

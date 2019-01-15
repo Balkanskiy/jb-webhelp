@@ -26,22 +26,16 @@ const TreeNode = props => {
   const isNodeSelected = node.id === selectedNodeId;
 
   const nodeStyles = {
-    className: [css.node, isNodeSelected ? css.nodeSelected : []].join(" "),
+    className: `${css.node} ${isNodeSelected ? css.nodeSelected : ""}`,
     style: { paddingLeft: getPaddingLeft(level, node.type) }
   };
-
-  const iconClassNames = [css.icon, node.isOpened ? css.iconOpened : null].join(
-    " "
-  );
-  const titleClassNames = [
-    css.title,
-    isNodeSelected ? css.titleSelected : null
-  ].join(" ");
-
-  const childClassNames = [
-    css.child,
-    node.isOpened ? css.childOpened : null
-  ].join(" ");
+  const iconClassNames = `${css.icon} ${node.isOpened ? css.iconOpened : ""}`;
+  const titleClassNames = `${css.title} ${
+    isNodeSelected ? css.titleSelected : ""
+  }`;
+  const childClassNames = `${css.child} ${
+    node.isOpened ? css.childOpened : ""
+  }`;
 
   const keyBoardControl = ({ type, keyCode }) => {
     switch (type) {
@@ -91,13 +85,11 @@ const TreeNode = props => {
                     tabIndex={0}
                     onClick={() => onAnchorSelect(currentAnchor)}
                     onKeyPress={() => onAnchorSelect(currentAnchor)}
-                    className={[
-                      css.anchor,
+                    className={`${css.anchor} ${
                       currentAnchor.id === selectedAnchorId
                         ? css.anchorSelected
-                        : null
-                    ].join(" ")}
-                    style={{ paddingLeft: "35px" }}
+                        : ""
+                    }`}
                   >
                     {currentAnchor.title}
                   </li>
