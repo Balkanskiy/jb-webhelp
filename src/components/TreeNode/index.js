@@ -25,17 +25,21 @@ const TreeNode = props => {
 
   const isNodeSelected = node.id === selectedNodeId;
 
-  const nodeStyles = {
-    className: `${css.node} ${isNodeSelected ? css.nodeSelected : ""}`,
-    style: { paddingLeft: getPaddingLeft(level, node.type) }
+  const styles = {
+    node: {
+      className: `${css.node} ${isNodeSelected ? css.nodeSelected : ""}`,
+      style: { paddingLeft: getPaddingLeft(level, node.type) }
+    },
+    icon: {
+      className: `${css.icon} ${node.isOpened ? css.iconOpened : ""}`
+    },
+    title: {
+      className: `${css.title} ${isNodeSelected ? css.titleSelected : ""}`
+    },
+    child: {
+      className: `${css.child} ${node.isOpened ? css.childOpened : ""}`
+    }
   };
-  const iconClassNames = `${css.icon} ${node.isOpened ? css.iconOpened : ""}`;
-  const titleClassNames = `${css.title} ${
-    isNodeSelected ? css.titleSelected : ""
-  }`;
-  const childClassNames = `${css.child} ${
-    node.isOpened ? css.childOpened : ""
-  }`;
 
   const keyBoardControl = ({ type, keyCode }) => {
     switch (type) {
@@ -59,13 +63,11 @@ const TreeNode = props => {
 
   return (
     <React.Fragment>
-      <li {...nodeStyles}>
-        {node.pages && (
-          <Icon className={iconClassNames} onClick={() => onToggle(node)} />
-        )}
+      <li {...styles.node}>
+        {node.pages && <Icon {...styles.icon} onClick={() => onToggle(node)} />}
         <div className={css.text}>
           <span
-            className={titleClassNames}
+            {...styles.title}
             role="link"
             onClick={() => onNodeSelect(node)}
             onKeyDown={keyBoardControl}
@@ -99,7 +101,7 @@ const TreeNode = props => {
           )}
         </div>
       </li>
-      <div className={childClassNames}>
+      <div {...styles.child}>
         {node.pages && node.isOpened && (
           <ul>
             {getChildNodes(node).map(childNode => (
