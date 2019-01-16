@@ -10,37 +10,15 @@ const openParentsNodes = (node, level, nodes) => {
       ...nodes[node.parentId],
       isOpened: true
     };
-
     const updatedNodes = {
       ...nodes,
       [parentNode.id]: parentNode
     };
-
     return openParentsNodes(parentNode, parentNode.level, updatedNodes);
   }
 };
 
 export default class Tree extends PureComponent {
-  static getDerivedStateFromProps(props, state) {
-    if (props.entityId !== state.entityId) {
-      const selectedNode = props.nodes[props.entityId];
-
-      if (selectedNode) {
-        const nodess = openParentsNodes(
-          selectedNode,
-          selectedNode.level,
-          props.nodes
-        );
-
-        return {
-          nodes: nodess,
-          selectedNodeId: props.entityId
-        };
-      }
-    }
-    return null;
-  }
-
   state = {
     nodes: this.props.nodes,
     selectedNodeId: "",
@@ -48,9 +26,24 @@ export default class Tree extends PureComponent {
     entityId: ""
   };
 
-  getRootNodes = () => {
-    return Object.values(this.state.nodes).filter(node => node.level === 0);
-  };
+  static getDerivedStateFromProps(props, state) {
+    if (props.entityId !== state.entityId) {
+      const selectedNode = props.nodes[props.entityId];
+      if (selectedNode) {
+        return {
+          nodes: openParentsNodes(
+            selectedNode,
+            selectedNode.level,
+            props.nodes
+          ),
+          selectedNodeId: props.entityId
+        };
+      }
+    }
+    return null;
+  }
+
+  getRootNodes = () => Object.values(this.state.nodes).filter(node => node.level === 0);
 
   getChildNodes = node => node.pages.map(title => this.state.nodes[title]);
 
@@ -100,5 +93,6 @@ export default class Tree extends PureComponent {
 
 Tree.propTypes = {
   onSelect: PropTypes.func.isRequired,
-  entityId: PropTypes.string.isRequired
+  entityId: PropTypes.string.isRequired,
+  nodes: PropTypes.object.isRequired,
 };

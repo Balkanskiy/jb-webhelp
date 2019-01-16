@@ -56,7 +56,7 @@ export default class SideMenu extends PureComponent {
               nodes={nodes}
               anchors={anchors}
               onSelect={this.selectEntity}
-              entityId={'Accessibility'}
+              entityId={''}
             />
           )}
         </div>
