@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import values from "lodash/values";
 import TreeNode from "../TreeNode/index.js";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -37,10 +36,8 @@ export default class Tree extends PureComponent {
     });
   };
 
-  getRootNodes = () => {
-    const { nodes } = this.state;
-    return values(nodes).filter(node => node.level === 0);
-  };
+  getRootNodes = () =>
+    Object.values(this.state.nodes).filter(node => node.level === 0);
 
   getChildNodes = node => {
     const { nodes } = this.state;

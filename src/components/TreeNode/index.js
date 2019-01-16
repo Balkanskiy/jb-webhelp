@@ -121,14 +121,14 @@ const TreeNode = props => {
 
 TreeNode.propTypes = {
   node: PropTypes.object.isRequired,
+  anchors: PropTypes.object.isRequired,
   getChildNodes: PropTypes.func.isRequired,
-  level: PropTypes.number.isRequired,
-  selectedNodeId: PropTypes.string.isRequired,
-  selectedAnchorId: PropTypes.string.isRequired,
+  level: PropTypes.number,
   onToggle: PropTypes.func.isRequired,
   onNodeSelect: PropTypes.func.isRequired,
   onAnchorSelect: PropTypes.func.isRequired,
-  anchors: PropTypes.object.isRequired
+  selectedNodeId: PropTypes.string.isRequired,
+  selectedAnchorId: PropTypes.string.isRequired
 };
 
 TreeNode.defaultProps = {
