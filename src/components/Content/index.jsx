@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import css from "../../index.module.css";
+import css from "./styles.module.css";
 
 export default class Content extends PureComponent {
   render() {

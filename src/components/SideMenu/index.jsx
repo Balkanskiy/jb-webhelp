@@ -8,9 +8,9 @@ const http = axios.create();
 
 export default class SideMenu extends PureComponent {
   state = {
-    selectedEntity: null,
     nodes: {},
     anchors: {},
+    selectedEntity: null,
     isLoading: false
   };
 
@@ -37,7 +37,7 @@ export default class SideMenu extends PureComponent {
 
   selectEntity = entity => {
     this.setState({ selectedEntity: entity }, () =>
-      console.log(this.state.selectedEntity)
+      console.log("selectedEntity", this.state.selectedEntity)
     );
   };
 
@@ -56,6 +56,7 @@ export default class SideMenu extends PureComponent {
               nodes={nodes}
               anchors={anchors}
               onSelect={this.selectEntity}
+              entityId={'Accessibility'}
             />
           )}
         </div>
