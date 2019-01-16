@@ -1,10 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## WebHelp. Компонент оглавления
 
 #### Todos:
 
-- <span style="color:green">Использовать актуальную версию библиотеки React для реализации логики и представления.</span>
+- Использовать актуальную версию библиотеки React для реализации логики и представления.
 
 - Для написания стилей желательно использовать LESS/SASS, PostCSS, CSS-модули или CSS-in-JS библиотеку.
 
@@ -18,6 +16,25 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - Сделать плавные анимации для смены цветов и изменения положения иконки.
 
+#### Plus:
+
+- JS API
+
+    - выбор активного пункта по ID
+
+    - фильтрация пунктов по строке текста
+
+- фильтрацию при вводе текста в элемент input (нет в дизайне)
+
+    - вывод результатов должен происходить не на каждое нажатие клавиши, а после прекращения набора
+
+    - во время ожидания отрисовки можно показать индикатор загрузки
+
+- анимацию разворачивания/сворачивания ветки
+
+- возможность навигирования по дереву с помощью клавиатуры
+
+
 #### Available Scripts
 
 In the project directory, you can run:
@@ -26,3 +43,6 @@ In the project directory, you can run:
 npm install
 npm start
 ```
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
