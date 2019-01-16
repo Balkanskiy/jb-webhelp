@@ -26,31 +26,32 @@ export default class Tree extends PureComponent {
     entityId: ""
   };
 
-  componentDidMount() {
-    const { nodes, anchors, entityId } = this.props;
-    if (entityId) {
+  static getDerivedStateFromProps({ nodes, anchors, entityId }, state) {
+    if (entityId && entityId !== state.entityId) {
       const selectedNode = nodes[entityId];
       if (selectedNode) {
-        this.setState({
+        return {
           nodes: openParentsNodes(selectedNode, selectedNode.level, nodes),
-          selectedNodeId: entityId
-        });
-        return;
+          selectedNodeId: entityId,
+          entityId: entityId
+        };
       }
       const selectedAnchor = anchors[entityId];
       if (selectedAnchor) {
         const anchorParentId = selectedAnchor.parentId;
-        this.setState({
+        return {
           nodes: openParentsNodes(
             selectedNode,
             nodes[anchorParentId].level,
             nodes
           ),
           selectedNodeId: anchorParentId,
-          selectedAnchorId: entityId
-        });
+          selectedAnchorId: entityId,
+          entityId: entityId
+        };
       }
     }
+    return null;
   }
 
   getRootNodes = () =>
