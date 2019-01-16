@@ -30,7 +30,6 @@ export default class Tree extends PureComponent {
     const { nodes, anchors, entityId } = this.props;
     if (entityId) {
       const selectedNode = nodes[entityId];
-      debugger;
       if (selectedNode) {
         this.setState({
           nodes: openParentsNodes(selectedNode, selectedNode.level, nodes),
