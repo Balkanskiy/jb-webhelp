@@ -26,24 +26,36 @@ export default class Tree extends PureComponent {
     entityId: ""
   };
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.entityId !== state.entityId) {
-      const selectedNode = props.nodes[props.entityId];
+  componentDidMount() {
+    const { nodes, anchors, entityId } = this.props;
+    if (entityId) {
+      const selectedNode = nodes[entityId];
+      debugger;
       if (selectedNode) {
-        return {
+        this.setState({
+          nodes: openParentsNodes(selectedNode, selectedNode.level, nodes),
+          selectedNodeId: entityId
+        });
+        return;
+      }
+      const selectedAnchor = anchors[entityId];
+      if (selectedAnchor) {
+        const anchorParentId = selectedAnchor.parentId;
+        this.setState({
           nodes: openParentsNodes(
             selectedNode,
-            selectedNode.level,
-            props.nodes
+            nodes[anchorParentId].level,
+            nodes
           ),
-          selectedNodeId: props.entityId
-        };
+          selectedNodeId: anchorParentId,
+          selectedAnchorId: entityId
+        });
       }
     }
-    return null;
   }
 
-  getRootNodes = () => Object.values(this.state.nodes).filter(node => node.level === 0);
+  getRootNodes = () =>
+    Object.values(this.state.nodes).filter(node => node.level === 0);
 
   getChildNodes = node => node.pages.map(title => this.state.nodes[title]);
 
@@ -94,5 +106,5 @@ export default class Tree extends PureComponent {
 Tree.propTypes = {
   onSelect: PropTypes.func.isRequired,
   entityId: PropTypes.string.isRequired,
-  nodes: PropTypes.object.isRequired,
+  nodes: PropTypes.object.isRequired
 };

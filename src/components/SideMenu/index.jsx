@@ -56,7 +56,9 @@ export default class SideMenu extends PureComponent {
               nodes={nodes}
               anchors={anchors}
               onSelect={this.selectEntity}
-              entityId={''}
+              entityId={
+                "procedures.workingwithprojects.config.template#restore-defaults"
+              }
             />
           )}
         </div>
