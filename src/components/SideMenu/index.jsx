@@ -56,8 +56,8 @@ export default class SideMenu extends PureComponent {
               nodes={nodes}
               anchors={anchors}
               onSelect={this.selectEntity}
-              entityId={null}
-              entityTitle={"Exporting an IntelliJ IDEA Project to Eclipse"}
+              entityId={''}
+              entityTitle={"Sort dependencies"}
             />
           )}
         </div>
@@ -65,3 +65,6 @@ export default class SideMenu extends PureComponent {
     );
   }
 }
+// Configure folder categories
+// Tips and tricks - nodetitle
+//Restore the default settings - anchortitle

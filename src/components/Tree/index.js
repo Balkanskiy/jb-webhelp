@@ -45,7 +45,7 @@ export default class Tree extends PureComponent {
         const anchorParentId = selectedAnchor.parentId;
         return {
           nodes: openParentsNodes(
-            selectedNode,
+            nodes[anchorParentId],
             nodes[anchorParentId].level,
             nodes
           ),
@@ -58,11 +58,15 @@ export default class Tree extends PureComponent {
     if (entityTitle && entityTitle !== state.entityTitle) {
       const nodesArray = Object.entries(nodes);
       const anchorsArray = Object.entries(anchors);
+
       if (nodesArray.length > 0) {
-        const [id, selectedNode] = nodesArray.find(
+        const selectedItem = nodesArray.find(
           node => node[1].title === entityTitle
         );
-        if (selectedNode) {
+
+        if (selectedItem) {
+          const [id, selectedNode] = selectedItem;
+
           return {
             nodes: openParentsNodes(selectedNode, selectedNode.level, nodes),
             selectedNodeId: id,
@@ -70,21 +74,23 @@ export default class Tree extends PureComponent {
           };
         }
       }
-      if(anchorsArray.length > 0) {
-        const [id, selectedAnchor] = anchorsArray.find(
+      if (anchorsArray.length > 0) {
+        const selectedItem = anchorsArray.find(
           anchor => anchor[1].title === entityTitle
         );
-        if (selectedAnchor) {
+
+        if (selectedItem) {
+          const [id, selectedAnchor] = selectedItem;
           const anchorParentId = selectedAnchor.parentId;
           return {
             nodes: openParentsNodes(
-              selectedNode,
+              nodes[anchorParentId],
               nodes[anchorParentId].level,
               nodes
             ),
             selectedNodeId: anchorParentId,
-            selectedAnchorId: entityId,
-            entityId: entityId
+            selectedAnchorId: id,
+            entityTitle: entityTitle
           };
         }
       }
@@ -142,7 +148,13 @@ export default class Tree extends PureComponent {
 }
 
 Tree.propTypes = {
+  nodes: PropTypes.object.isRequired,
   onSelect: PropTypes.func.isRequired,
-  entityId: PropTypes.string.isRequired,
-  nodes: PropTypes.object.isRequired
+  entityId: PropTypes.string,
+  entityTitle: PropTypes.string
+};
+
+Tree.defaultProps = {
+  entityId: "",
+  entityTitle: ""
 };
