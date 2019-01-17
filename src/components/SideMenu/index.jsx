@@ -56,9 +56,8 @@ export default class SideMenu extends PureComponent {
               nodes={nodes}
               anchors={anchors}
               onSelect={this.selectEntity}
-              entityId={
-                "procedures.workingwithprojects.config.template#restore-defaults"
-              }
+              entityId={null}
+              entityTitle={"Exporting an IntelliJ IDEA Project to Eclipse"}
             />
           )}
         </div>

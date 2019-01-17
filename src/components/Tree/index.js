@@ -23,10 +23,14 @@ export default class Tree extends PureComponent {
     nodes: this.props.nodes,
     selectedNodeId: "",
     selectedAnchorId: "",
-    entityId: ""
+    entityId: "",
+    entityTitle: ""
   };
 
-  static getDerivedStateFromProps({ nodes, anchors, entityId }, state) {
+  static getDerivedStateFromProps(
+    { nodes, anchors, entityId, entityTitle },
+    state
+  ) {
     if (entityId && entityId !== state.entityId) {
       const selectedNode = nodes[entityId];
       if (selectedNode) {
@@ -49,6 +53,40 @@ export default class Tree extends PureComponent {
           selectedAnchorId: entityId,
           entityId: entityId
         };
+      }
+    }
+    if (entityTitle && entityTitle !== state.entityTitle) {
+      const nodesArray = Object.entries(nodes);
+      const anchorsArray = Object.entries(anchors);
+      if (nodesArray.length > 0) {
+        const [id, selectedNode] = nodesArray.find(
+          node => node[1].title === entityTitle
+        );
+        if (selectedNode) {
+          return {
+            nodes: openParentsNodes(selectedNode, selectedNode.level, nodes),
+            selectedNodeId: id,
+            entityTitle: entityTitle
+          };
+        }
+      }
+      if(anchorsArray.length > 0) {
+        const [id, selectedAnchor] = anchorsArray.find(
+          anchor => anchor[1].title === entityTitle
+        );
+        if (selectedAnchor) {
+          const anchorParentId = selectedAnchor.parentId;
+          return {
+            nodes: openParentsNodes(
+              selectedNode,
+              nodes[anchorParentId].level,
+              nodes
+            ),
+            selectedNodeId: anchorParentId,
+            selectedAnchorId: entityId,
+            entityId: entityId
+          };
+        }
       }
     }
     return null;
