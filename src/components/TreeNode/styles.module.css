@@ -45,16 +45,6 @@
   font-weight: bold;
 }
 
-.child {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease 0.1s;
-}
-
-.childOpened {
-  max-height: 10000px;
-}
-
 .anchor {
   padding: 5px 17px 5px 35px;
   font-size: 14px;

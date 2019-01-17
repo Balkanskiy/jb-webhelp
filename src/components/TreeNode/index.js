@@ -35,9 +35,6 @@ const TreeNode = props => {
     },
     title: {
       className: `${css.title} ${isNodeSelected ? css.titleSelected : ""}`
-    },
-    child: {
-      className: `${css.child} ${node.isOpened ? css.childOpened : ""}`
     }
   };
 
@@ -61,6 +58,41 @@ const TreeNode = props => {
     }
   };
 
+  const renderChildren = () => (
+    <ul>
+      {getChildNodes(node).map(childNode => (
+        <TreeNode
+          {...props}
+          node={childNode}
+          key={childNode.id}
+          level={level + 1}
+        />
+      ))}
+    </ul>
+  );
+
+  const renderAnchors = (nodeAnchors = []) => (
+    <ul>
+      {nodeAnchors.map(anchor => {
+        const currentAnchor = anchors[anchor];
+        return (
+          <li
+            key={currentAnchor.id}
+            role="button"
+            tabIndex={0}
+            onClick={() => onAnchorSelect(currentAnchor)}
+            onKeyPress={() => onAnchorSelect(currentAnchor)}
+            className={`${css.anchor} ${
+              currentAnchor.id === selectedAnchorId ? css.anchorSelected : ""
+            }`}
+          >
+            {currentAnchor.title}
+          </li>
+        );
+      })}
+    </ul>
+  );
+
   return (
     <React.Fragment>
       <li {...styles.node}>
@@ -76,45 +108,10 @@ const TreeNode = props => {
           >
             {node.title}
           </span>
-          {node.anchors && isNodeSelected && (
-            <ul>
-              {node.anchors.map(anchor => {
-                const currentAnchor = anchors[anchor];
-                return (
-                  <li
-                    key={currentAnchor.id}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => onAnchorSelect(currentAnchor)}
-                    onKeyPress={() => onAnchorSelect(currentAnchor)}
-                    className={`${css.anchor} ${
-                      currentAnchor.id === selectedAnchorId
-                        ? css.anchorSelected
-                        : ""
-                    }`}
-                  >
-                    {currentAnchor.title}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
+          {isNodeSelected && renderAnchors(node.anchors)}
         </div>
       </li>
-      <div {...styles.child}>
-        {node.pages && node.isOpened && (
-          <ul>
-            {getChildNodes(node).map(childNode => (
-              <TreeNode
-                {...props}
-                node={childNode}
-                key={childNode.id}
-                level={level + 1}
-              />
-            ))}
-          </ul>
-        )}
-      </div>
+      {node.pages && node.isOpened && renderChildren()}
     </React.Fragment>
   );
 };
