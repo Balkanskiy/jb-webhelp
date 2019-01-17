@@ -1,49 +1,107 @@
 import React, { PureComponent } from "react";
 import TreeNode from "../TreeNode/index.js";
 import PropTypes from "prop-types";
-import axios from "axios";
-import Placeholder from "./SvgLoadingPlaceholder";
-import css from "./styles.module.css";
 
-const http = axios.create();
+const openParentsNodes = (node, level, nodes) => {
+  if (level === 0) {
+    return nodes;
+  } else {
+    const parentNode = {
+      ...nodes[node.parentId],
+      isOpened: true
+    };
+    const updatedNodes = {
+      ...nodes,
+      [parentNode.id]: parentNode
+    };
+    return openParentsNodes(parentNode, parentNode.level, updatedNodes);
+  }
+};
 
 export default class Tree extends PureComponent {
   state = {
-    nodes: {},
+    nodes: this.props.nodes,
     selectedNodeId: "",
     selectedAnchorId: "",
-    isLoading: false
+    entityId: "",
+    entityTitle: ""
   };
 
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData = async () => {
-    this.setState({ isLoading: true }, async () => {
-      try {
-        const {
-          data: {
-            entities: { pages, anchors }
-          }
-        } = await http.get("/help/idea/2018.3/HelpTOC.json");
-        this.setState({ nodes: pages, anchors });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        this.setState({ isLoading: false });
+  static getDerivedStateFromProps(
+    { nodes, anchors, entityId, entityTitle },
+    state
+  ) {
+    if (entityId && entityId !== state.entityId) {
+      const selectedNode = nodes[entityId];
+      if (selectedNode) {
+        return {
+          nodes: openParentsNodes(selectedNode, selectedNode.level, nodes),
+          selectedNodeId: entityId,
+          entityId: entityId
+        };
       }
-    });
-  };
+      const selectedAnchor = anchors[entityId];
+      if (selectedAnchor) {
+        const anchorParentId = selectedAnchor.parentId;
+        return {
+          nodes: openParentsNodes(
+            nodes[anchorParentId],
+            nodes[anchorParentId].level,
+            nodes
+          ),
+          selectedNodeId: anchorParentId,
+          selectedAnchorId: entityId,
+          entityId: entityId
+        };
+      }
+    }
+    if (entityTitle && entityTitle !== state.entityTitle) {
+      const nodesArray = Object.entries(nodes);
+      const anchorsArray = Object.entries(anchors);
+
+      if (nodesArray.length > 0) {
+        const selectedItem = nodesArray.find(
+          node => node[1].title === entityTitle
+        );
+
+        if (selectedItem) {
+          const [id, selectedNode] = selectedItem;
+
+          return {
+            nodes: openParentsNodes(selectedNode, selectedNode.level, nodes),
+            selectedNodeId: id,
+            entityTitle: entityTitle
+          };
+        }
+      }
+      if (anchorsArray.length > 0) {
+        const selectedItem = anchorsArray.find(
+          anchor => anchor[1].title === entityTitle
+        );
+
+        if (selectedItem) {
+          const [id, selectedAnchor] = selectedItem;
+          const anchorParentId = selectedAnchor.parentId;
+          return {
+            nodes: openParentsNodes(
+              nodes[anchorParentId],
+              nodes[anchorParentId].level,
+              nodes
+            ),
+            selectedNodeId: anchorParentId,
+            selectedAnchorId: id,
+            entityTitle: entityTitle
+          };
+        }
+      }
+    }
+    return null;
+  }
 
   getRootNodes = () =>
     Object.values(this.state.nodes).filter(node => node.level === 0);
 
-  getChildNodes = node => {
-    const { nodes } = this.state;
-    if (!node.pages) return [];
-    return node.pages.map(title => nodes[title]);
-  };
+  getChildNodes = node => node.pages.map(title => this.state.nodes[title]);
 
   toggleNodeOpening = node => {
     const { nodes } = this.state;
@@ -64,38 +122,39 @@ export default class Tree extends PureComponent {
   };
 
   render() {
-    const { anchors, isLoading, selectedNodeId, selectedAnchorId } = this.state;
+    const { selectedNodeId, selectedAnchorId } = this.state;
+    const { anchors } = this.props;
     const rootNodes = this.getRootNodes();
 
     return (
-      <div>
-        <ul>
-          {isLoading ? (
-            <div className={css.placeholder}>
-              <Placeholder />
-            </div>
-          ) : (
-            rootNodes.map(node => (
-              <TreeNode
-                key={node.id}
-                node={node}
-                anchors={anchors}
-                getChildNodes={this.getChildNodes}
-                onToggle={this.toggleNodeOpening}
-                onNodeOpening={this.toggleNodeOpening}
-                onNodeSelect={this.selectNode}
-                onAnchorSelect={this.selectAnchor}
-                selectedNodeId={selectedNodeId}
-                selectedAnchorId={selectedAnchorId}
-              />
-            ))
-          )}
-        </ul>
-      </div>
+      <ul>
+        {rootNodes.map(node => (
+          <TreeNode
+            key={node.id}
+            node={node}
+            anchors={anchors}
+            getChildNodes={this.getChildNodes}
+            onToggle={this.toggleNodeOpening}
+            onNodeOpening={this.toggleNodeOpening}
+            onNodeSelect={this.selectNode}
+            onAnchorSelect={this.selectAnchor}
+            selectedNodeId={selectedNodeId}
+            selectedAnchorId={selectedAnchorId}
+          />
+        ))}
+      </ul>
     );
   }
 }
 
 Tree.propTypes = {
-  onSelect: PropTypes.func.isRequired
+  nodes: PropTypes.object.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  entityId: PropTypes.string,
+  entityTitle: PropTypes.string
+};
+
+Tree.defaultProps = {
+  entityId: "",
+  entityTitle: ""
 };
