@@ -2,21 +2,29 @@ import React, { PureComponent } from "react";
 import axios from "axios";
 import css from "./styles.module.css";
 import Tree from "../Tree/index.js";
+import Searching from "../Searching/index.jsx";
 import Placeholder from "./SvgLoadingPlaceholder";
 
 const http = axios.create();
 
 export default class SideMenu extends PureComponent {
-  state = {
-    nodes: {},
-    anchors: {},
-    selectedEntity: null,
-    isLoading: false
-  };
+  state = { nodes: {}, anchors: {}, selectedEntity: null, isLoading: false };
 
   componentDidMount() {
     this.fetchData();
   }
+
+  nodesFilter = (obj, stringQuery) => {
+    let result = {},
+      key;
+    for (key in obj) {
+      if (obj[key].title === stringQuery) {
+        result[key] = obj[key];
+      }
+    }
+
+    return result;
+  };
 
   fetchData = async () => {
     this.setState({ isLoading: true }, async () => {
@@ -26,12 +34,22 @@ export default class SideMenu extends PureComponent {
             entities: { pages, anchors }
           }
         } = await http.get("/help/idea/2018.3/HelpTOC.json");
-        this.setState({ nodes: pages, anchors });
+        this.setState({
+          nodes: pages,
+          anchors
+        });
       } catch (e) {
         console.error(e);
       } finally {
         this.setState({ isLoading: false });
       }
+    });
+  };
+
+  searching = string => {
+    this.setState({ isLoading: true }, () => {
+      const filteredNodes = this.nodesFilter(this.state.nodes, string);
+      this.setState({ nodes: filteredNodes, isLoading: false });
     });
   };
 
@@ -46,6 +64,7 @@ export default class SideMenu extends PureComponent {
 
     return (
       <div className={css.sideMenu}>
+        <Searching startSearching={this.searching} />
         <div className={css.menu}>
           {isLoading ? (
             <div className={css.placeholder}>
@@ -56,8 +75,8 @@ export default class SideMenu extends PureComponent {
               nodes={nodes}
               anchors={anchors}
               onSelect={this.selectEntity}
-              entityId={''}
-              entityTitle={"Sort dependencies"}
+              entityId={""}
+              entityTitle={""}
             />
           )}
         </div>
