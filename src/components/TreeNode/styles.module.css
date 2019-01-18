@@ -42,6 +42,7 @@
 }
 
 .titleSelected {
+  line-height: 19px;
   font-weight: bold;
 }
 

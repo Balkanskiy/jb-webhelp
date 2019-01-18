@@ -8,23 +8,17 @@ import Placeholder from "./SvgLoadingPlaceholder";
 const http = axios.create();
 
 export default class SideMenu extends PureComponent {
-  state = { nodes: {}, anchors: {}, selectedEntity: null, isLoading: false };
+  state = {
+    nodes: {},
+    anchors: {},
+    selectedEntity: null,
+    isLoading: false,
+    searchQuery: ""
+  };
 
   componentDidMount() {
     this.fetchData();
   }
-
-  nodesFilter = (obj, stringQuery) => {
-    let result = {},
-      key;
-    for (key in obj) {
-      if (obj[key].title === stringQuery) {
-        result[key] = obj[key];
-      }
-    }
-
-    return result;
-  };
 
   fetchData = async () => {
     this.setState({ isLoading: true }, async () => {
@@ -47,10 +41,7 @@ export default class SideMenu extends PureComponent {
   };
 
   searching = string => {
-    this.setState({ isLoading: true }, () => {
-      const filteredNodes = this.nodesFilter(this.state.nodes, string);
-      this.setState({ nodes: filteredNodes, isLoading: false });
-    });
+    this.setState({ searchQuery: string }, this.fetchData);
   };
 
   selectEntity = entity => {
@@ -60,7 +51,7 @@ export default class SideMenu extends PureComponent {
   };
 
   render() {
-    const { nodes, anchors, isLoading } = this.state;
+    const { nodes, anchors, isLoading, searchQuery } = this.state;
 
     return (
       <div className={css.sideMenu}>
@@ -77,6 +68,7 @@ export default class SideMenu extends PureComponent {
               onSelect={this.selectEntity}
               entityId={""}
               entityTitle={""}
+              searchQuery={searchQuery}
             />
           )}
         </div>

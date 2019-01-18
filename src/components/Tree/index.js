@@ -98,8 +98,14 @@ export default class Tree extends PureComponent {
     return null;
   }
 
-  getRootNodes = () =>
-    Object.values(this.state.nodes).filter(node => node.level === 0);
+  getFilteredNodes = () => {
+    const regex = new RegExp(this.props.searchQuery, "i");
+    return Object.values(this.state.nodes).filter(node =>
+      regex.test(node.title)
+    );
+  };
+
+  getRootNodes = arr => arr.filter(node => node.level === 0);
 
   getChildNodes = node => node.pages.map(title => this.state.nodes[title]);
 
@@ -124,7 +130,8 @@ export default class Tree extends PureComponent {
   render() {
     const { selectedNodeId, selectedAnchorId } = this.state;
     const { anchors } = this.props;
-    const rootNodes = this.getRootNodes();
+    const filteredNodes = this.getFilteredNodes();
+    const rootNodes = this.getRootNodes(filteredNodes);
 
     return (
       <ul>
