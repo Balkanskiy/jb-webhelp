@@ -46,6 +46,16 @@
   font-weight: bold;
 }
 
+.children {
+  max-height: 0;
+  overflow: hidden;
+  /*transition: max-height 0.2s ease;*/
+}
+
+.childrenOpened {
+  max-height: 1000px;
+}
+
 .anchor {
   padding: 5px 17px 5px 35px;
   font-size: 14px;

@@ -35,6 +35,9 @@ const TreeNode = props => {
     },
     title: {
       className: `${css.title} ${isNodeSelected ? css.titleSelected : ""}`
+    },
+    children: {
+      className: `${css.children} ${node.isOpened ? css.childrenOpened : ""}`
     }
   };
 
@@ -59,7 +62,7 @@ const TreeNode = props => {
   };
 
   const renderChildren = () => (
-    <ul>
+    <ul {...styles.children} id={node.id}>
       {getChildNodes(node).map(childNode => (
         <TreeNode
           {...props}
@@ -111,7 +114,7 @@ const TreeNode = props => {
           {isNodeSelected && renderAnchors(node.anchors)}
         </div>
       </li>
-      {node.pages && node.isOpened && renderChildren()}
+      {node.pages && renderChildren()}
     </React.Fragment>
   );
 };
