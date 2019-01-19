@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import axios from "axios";
 import css from "./styles.module.css";
 import Tree from "../Tree/index.js";
-import Searching from "../Searching/index.jsx";
+import Search from "../Search/index.jsx";
 import Placeholder from "./SvgLoadingPlaceholder";
 
 const http = axios.create();
@@ -55,7 +55,7 @@ export default class SideMenu extends PureComponent {
 
     return (
       <div className={css.sideMenu}>
-        <Searching startSearching={this.searching} />
+        <Search startSearching={this.searching} />
         <div className={css.menu}>
           {isLoading ? (
             <div className={css.placeholder}>
