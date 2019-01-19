@@ -104,7 +104,10 @@ const TreeNode = props => {
           <span
             {...styles.title}
             role="link"
-            onClick={() => onNodeSelect(node)}
+            onClick={() => {
+              onNodeSelect(node);
+              onToggle(node);
+            }}
             onKeyDown={keyBoardControl}
             onKeyPress={keyBoardControl}
             tabIndex={0}
@@ -114,7 +117,7 @@ const TreeNode = props => {
           {isNodeSelected && renderAnchors(node.anchors)}
         </div>
       </li>
-      {node.pages && renderChildren()}
+      {node.pages && node.isOpened && renderChildren()}
     </React.Fragment>
   );
 };

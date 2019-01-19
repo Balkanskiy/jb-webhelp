@@ -49,11 +49,12 @@
 .children {
   max-height: 0;
   overflow: hidden;
-  /*transition: max-height 0.2s ease;*/
+  transition: max-height 1s ease 0.5s;
 }
 
 .childrenOpened {
-  max-height: 1000px;
+  max-height: 5000px;
+  transition: max-height 1s ease 0.5s;
 }
 
 .anchor {
