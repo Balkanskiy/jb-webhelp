@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
 import css from "./styles.module.css";
 import Tree from "../Tree/index.js";
@@ -50,7 +51,7 @@ export default class SideMenu extends PureComponent {
     return (
       <div
         className={`${css.sideMenu} ${
-          this.props.open ? css.sideMenuOpened : ""
+          this.props.isOpen ? css.sideMenuOpened : ""
         }`}
       >
         <Search startSearching={this.searching} />
@@ -74,3 +75,7 @@ export default class SideMenu extends PureComponent {
     );
   }
 }
+
+SideMenu.propTypes = {
+  isOpen: PropTypes.bool.isRequired
+};

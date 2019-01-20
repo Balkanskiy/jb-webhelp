@@ -9,24 +9,22 @@ class App extends PureComponent {
     menuIsOpen: false
   };
   render() {
+    const { menuIsOpen } = this.state;
     return (
       <div className={css.layout}>
         <header className={css.header}>
           <BurgerMenu
-            open={this.state.menuIsOpen}
+            open={menuIsOpen}
             onClick={() =>
-              this.setState(
-                prevState =>
-                  console.log(prevState) || {
-                    menuIsOpen: !prevState.menuIsOpen
-                  }
-              )
+              this.setState(prevState => ({
+                menuIsOpen: !prevState.menuIsOpen
+              }))
             }
           />
           <b className={css.title}>IntelliJ IDEA 2017.3! Help</b>
         </header>
         <div className={css.app}>
-          <SideMenu open={this.state.menuIsOpen} />
+          <SideMenu isOpen={menuIsOpen} />
           <Content />
         </div>
       </div>
