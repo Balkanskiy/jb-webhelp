@@ -54,7 +54,11 @@ export default class SideMenu extends PureComponent {
     const { nodes, anchors, isLoading, searchQuery } = this.state;
 
     return (
-      <div className={css.sideMenu}>
+      <div
+        className={`${css.sideMenu} ${
+          this.props.open ? css.sideMenuOpened : ""
+        }`}
+      >
         <Search startSearching={this.searching} />
         <div className={css.menu}>
           {isLoading ? (
@@ -66,8 +70,8 @@ export default class SideMenu extends PureComponent {
               nodes={nodes}
               anchors={anchors}
               onSelect={this.selectEntity}
-              entityId={""}
-              entityTitle={""}
+              entityId={""} //ex. "topicId287958#main-concepts-tool-window"
+              entityTitle={""} //ex. "Folder categories"
               searchQuery={searchQuery}
             />
           )}
@@ -76,6 +80,3 @@ export default class SideMenu extends PureComponent {
     );
   }
 }
-// Configure folder categories
-// Tips and tricks - nodetitle
-//Restore the default settings - anchortitle

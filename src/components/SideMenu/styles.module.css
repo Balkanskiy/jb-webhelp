@@ -13,8 +13,12 @@
 
 @media (max-width: 768px) {
   .sideMenu {
-    max-width: 150px;
+    max-width: 0;
   }
+}
+
+.sideMenuOpened {
+  max-width: 300px;
 }
 
 .menu {

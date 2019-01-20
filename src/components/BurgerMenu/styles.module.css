@@ -1,0 +1,35 @@
+.burgerMenu {
+  display: none;
+  margin: 10px;
+}
+
+.burgerMenu .bar1,
+.bar2,
+.bar3 {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.burgerMenu.open .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-4px, 4px);
+  transform: rotate(-45deg) translate(-4px, 4px);
+}
+
+.burgerMenu.open .bar2 {
+  opacity: 0;
+}
+
+.burgerMenu.open .bar3 {
+  -webkit-transform: rotate(45deg) translate(-6px, -6px);
+  transform: rotate(45deg) translate(-6px, -6px);
+}
+
+@media (max-width: 768px) {
+  .burgerMenu {
+    display: block;
+  }
+}
