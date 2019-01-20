@@ -40,15 +40,9 @@ export default class SideMenu extends PureComponent {
     });
   };
 
-  searching = string => {
-    this.setState({ searchQuery: string }, this.fetchData);
-  };
+  searching = string => this.setState({ searchQuery: string }, this.fetchData);
 
-  selectEntity = entity => {
-    this.setState({ selectedEntity: entity }, () =>
-      console.log("selectedEntity", this.state.selectedEntity)
-    );
-  };
+  selectEntity = entity => this.setState({ selectedEntity: entity });
 
   render() {
     const { nodes, anchors, isLoading, searchQuery } = this.state;
