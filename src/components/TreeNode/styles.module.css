@@ -70,3 +70,7 @@
 .anchorSelected {
   font-weight: bold;
 }
+
+.titleFiltered {
+  color: red;
+}

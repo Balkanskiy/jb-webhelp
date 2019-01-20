@@ -99,10 +99,22 @@ export default class Tree extends PureComponent {
   }
 
   getFilteredNodes = () => {
-    const regex = new RegExp(this.props.searchQuery, "i");
-    return Object.values(this.state.nodes).filter(node =>
-      regex.test(node.title)
-    );
+    if (this.props.searchQuery !== "") {
+      const regex = new RegExp(this.props.searchQuery, "i");
+      return Object.values(this.state.nodes).filter(node =>
+        regex.test(node.title)
+      );
+    }
+    return Object.values(this.state.nodes);
+
+    // let result = filteredNodes.map(node => {
+    //   if (node.level !== 0) {
+    //     if (!filteredNodes.find(item => node.parentId === item.id)) {
+    //       return { ...this.state.nodes[node.parentId], isOpened: true };
+    //     }
+    //   }
+    //   return node;
+    // });
   };
 
   getRootNodes = arr => arr.filter(node => node.level === 0);
