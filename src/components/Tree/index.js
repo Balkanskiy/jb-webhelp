@@ -106,15 +106,6 @@ export default class Tree extends PureComponent {
       );
     }
     return Object.values(this.state.nodes);
-
-    // let result = filteredNodes.map(node => {
-    //   if (node.level !== 0) {
-    //     if (!filteredNodes.find(item => node.parentId === item.id)) {
-    //       return { ...this.state.nodes[node.parentId], isOpened: true };
-    //     }
-    //   }
-    //   return node;
-    // });
   };
 
   getRootNodes = arr => arr.filter(node => node.level === 0);
