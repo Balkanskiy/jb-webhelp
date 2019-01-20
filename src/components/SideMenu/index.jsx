@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import axios from "axios";
 import css from "./styles.module.css";
 import Tree from "../Tree/index.js";
+import Search from "../Search/index.jsx";
 import Placeholder from "./SvgLoadingPlaceholder";
 
 const http = axios.create();
@@ -11,7 +12,8 @@ export default class SideMenu extends PureComponent {
     nodes: {},
     anchors: {},
     selectedEntity: null,
-    isLoading: false
+    isLoading: false,
+    searchQuery: ""
   };
 
   componentDidMount() {
@@ -26,7 +28,10 @@ export default class SideMenu extends PureComponent {
             entities: { pages, anchors }
           }
         } = await http.get("/help/idea/2018.3/HelpTOC.json");
-        this.setState({ nodes: pages, anchors });
+        this.setState({
+          nodes: pages,
+          anchors
+        });
       } catch (e) {
         console.error(e);
       } finally {
@@ -35,17 +40,20 @@ export default class SideMenu extends PureComponent {
     });
   };
 
-  selectEntity = entity => {
-    this.setState({ selectedEntity: entity }, () =>
-      console.log("selectedEntity", this.state.selectedEntity)
-    );
-  };
+  searching = string => this.setState({ searchQuery: string }, this.fetchData);
+
+  selectEntity = entity => this.setState({ selectedEntity: entity });
 
   render() {
-    const { nodes, anchors, isLoading } = this.state;
+    const { nodes, anchors, isLoading, searchQuery } = this.state;
 
     return (
-      <div className={css.sideMenu}>
+      <div
+        className={`${css.sideMenu} ${
+          this.props.open ? css.sideMenuOpened : ""
+        }`}
+      >
+        <Search startSearching={this.searching} />
         <div className={css.menu}>
           {isLoading ? (
             <div className={css.placeholder}>
@@ -56,8 +64,9 @@ export default class SideMenu extends PureComponent {
               nodes={nodes}
               anchors={anchors}
               onSelect={this.selectEntity}
-              entityId={''}
-              entityTitle={"Sort dependencies"}
+              entityId={""} //ex. "topicId287958#main-concepts-tool-window"
+              entityTitle={""} //ex. "Folder categories"
+              searchQuery={searchQuery}
             />
           )}
         </div>
@@ -65,6 +74,3 @@ export default class SideMenu extends PureComponent {
     );
   }
 }
-// Configure folder categories
-// Tips and tricks - nodetitle
-//Restore the default settings - anchortitle

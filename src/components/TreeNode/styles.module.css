@@ -42,7 +42,19 @@
 }
 
 .titleSelected {
+  line-height: 19px;
   font-weight: bold;
+}
+
+.children {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1s ease 0.5s;
+}
+
+.childrenOpened {
+  max-height: 5000px;
+  transition: max-height 1s ease 0.5s;
 }
 
 .anchor {
@@ -57,4 +69,8 @@
 
 .anchorSelected {
   font-weight: bold;
+}
+
+.titleFiltered {
+  color: red;
 }

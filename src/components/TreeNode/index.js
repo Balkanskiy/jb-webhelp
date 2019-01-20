@@ -35,6 +35,9 @@ const TreeNode = props => {
     },
     title: {
       className: `${css.title} ${isNodeSelected ? css.titleSelected : ""}`
+    },
+    children: {
+      className: `${css.children} ${node.isOpened ? css.childrenOpened : ""}`
     }
   };
 
@@ -59,7 +62,7 @@ const TreeNode = props => {
   };
 
   const renderChildren = () => (
-    <ul>
+    <ul {...styles.children} id={node.id}>
       {getChildNodes(node).map(childNode => (
         <TreeNode
           {...props}
@@ -101,7 +104,10 @@ const TreeNode = props => {
           <span
             {...styles.title}
             role="link"
-            onClick={() => onNodeSelect(node)}
+            onClick={() => {
+              onNodeSelect(node);
+              onToggle(node);
+            }}
             onKeyDown={keyBoardControl}
             onKeyPress={keyBoardControl}
             tabIndex={0}

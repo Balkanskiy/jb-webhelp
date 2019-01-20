@@ -13,13 +13,17 @@
 
 @media (max-width: 768px) {
   .sideMenu {
-    max-width: 150px;
+    max-width: 0;
   }
+}
+
+.sideMenuOpened {
+  max-width: 300px;
 }
 
 .menu {
   position: relative;
-  padding: 25px 0;
+  padding: 15px 0;
   line-height: 1;
 }
 
