@@ -1,6 +1,7 @@
 .burgerMenu {
   display: none;
   margin: 10px;
+  cursor: pointer;
 }
 
 .burgerMenu .bar1,
@@ -11,7 +12,6 @@
   background-color: white;
   margin: 4px 0;
   transition: 0.4s;
-  cursor: pointer;
 }
 
 .burgerMenu.open .bar1 {
