@@ -41,7 +41,8 @@ const TreeNode = props => {
     }
   };
 
-  const keyBoardControl = ({ type, keyCode }) => {
+  const keyBoardControl = event => {
+    const { type, keyCode } = event;
     switch (type) {
       case "keydown": {
         if (
@@ -53,6 +54,7 @@ const TreeNode = props => {
         break;
       }
       case "keypress": {
+        event.preventDefault();
         onNodeSelect(node);
         break;
       }
