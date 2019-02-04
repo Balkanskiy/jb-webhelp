@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import TreeNode from "../TreeNode/index.js";
+import TreeNode from "../TreeNode";
 import PropTypes from "prop-types";
 
 const openParentsNodes = (node, level, nodes) => {

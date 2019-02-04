@@ -87,7 +87,7 @@ class TreeNode extends React.Component {
                 role="button"
                 tabIndex={0}
                 onClick={this.handleAnchorClick.bind(this, currentAnchor)}
-                onKeyPress={this.handleAnchorClick}
+                onKeyPress={this.handleAnchorClick.bind(this, currentAnchor)}
                 className={`${css.anchor} ${
                   currentAnchor.id === selectedAnchorId
                     ? css.anchorSelected
