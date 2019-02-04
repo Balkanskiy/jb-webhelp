@@ -34,8 +34,26 @@ class TreeNode extends React.Component {
     }
   };
 
+  handleTitleClick = event => {
+    event.preventDefault();
+    const { node, onNodeSelect, onToggle } = this.props;
+    onNodeSelect(node);
+    onToggle(node);
+  };
+
+  handleIconClick = event => {
+    event.preventDefault();
+    const { node, onToggle } = this.props;
+    onToggle(node);
+  };
+
+  handleAnchorClick = (currentAnchor, event) => {
+    event.preventDefault();
+    this.props.onAnchorSelect(currentAnchor);
+  };
+
   renderAnchors = (nodeAnchors = []) => {
-    const { anchors, onAnchorSelect, selectedAnchorId } = this.props;
+    const { anchors, selectedAnchorId } = this.props;
     return (
       nodeAnchors.length > 0 && (
         <ul>
@@ -46,8 +64,8 @@ class TreeNode extends React.Component {
                 key={currentAnchor.id}
                 role="button"
                 tabIndex={0}
-                onClick={() => onAnchorSelect(currentAnchor)}
-                onKeyPress={() => onAnchorSelect(currentAnchor)}
+                onClick={this.handleAnchorClick.bind(this, currentAnchor)}
+                onKeyPress={this.handleAnchorClick}
                 className={`${css.anchor} ${
                   currentAnchor.id === selectedAnchorId
                     ? css.anchorSelected
@@ -83,8 +101,7 @@ class TreeNode extends React.Component {
   };
 
   render() {
-    const { node, level, onToggle, onNodeSelect, selectedNodeId } = this.props;
-
+    const { node, level, selectedNodeId } = this.props;
     const isNodeSelected = node.id === selectedNodeId;
 
     const styles = {
@@ -107,16 +124,13 @@ class TreeNode extends React.Component {
       <React.Fragment>
         <li {...styles.node}>
           {node.pages && (
-            <Icon {...styles.icon} onClick={() => onToggle(node)} />
+            <Icon {...styles.icon} onClick={this.handleIconClick} />
           )}
           <div className={css.text}>
             <span
               {...styles.title}
               role="link"
-              onClick={() => {
-                onNodeSelect(node);
-                onToggle(node);
-              }}
+              onClick={this.handleTitleClick}
               onKeyDown={this.keyBoardControl}
               onKeyPress={this.keyBoardControl}
               tabIndex={0}
