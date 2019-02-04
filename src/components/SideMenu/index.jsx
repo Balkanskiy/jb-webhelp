@@ -2,8 +2,8 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import css from "./styles.module.css";
-import Tree from "../Tree/index.js";
-import Search from "../Search/index.jsx";
+import Tree from "../Tree";
+import Search from "../Search";
 import Placeholder from "./SvgLoadingPlaceholder";
 
 const http = axios.create();
