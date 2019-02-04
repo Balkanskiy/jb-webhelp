@@ -10,39 +10,10 @@ const KEY_CODES = {
   ARROW_LEFT: 37
 };
 
-const TreeNode = props => {
-  const {
-    node,
-    anchors,
-    getChildNodes,
-    level,
-    onToggle,
-    onNodeSelect,
-    onAnchorSelect,
-    selectedNodeId,
-    selectedAnchorId
-  } = props;
-
-  const isNodeSelected = node.id === selectedNodeId;
-
-  const styles = {
-    node: {
-      className: `${css.node} ${isNodeSelected ? css.nodeSelected : ""}`,
-      style: { paddingLeft: getPaddingLeft(level, node.type) }
-    },
-    icon: {
-      className: `${css.icon} ${node.isOpened ? css.iconOpened : ""}`
-    },
-    title: {
-      className: `${css.title} ${isNodeSelected ? css.titleSelected : ""}`
-    },
-    children: {
-      className: `${css.children} ${node.isOpened ? css.childrenOpened : ""}`
-    }
-  };
-
-  const keyBoardControl = event => {
+class TreeNode extends React.Component {
+  keyBoardControl = event => {
     const { type, keyCode } = event;
+    const { node, onToggle, onNodeSelect } = this.props;
     switch (type) {
       case "keydown": {
         if (
@@ -63,66 +34,117 @@ const TreeNode = props => {
     }
   };
 
-  const renderChildren = () => (
-    <ul {...styles.children} id={node.id}>
-      {getChildNodes(node).map(childNode => (
-        <TreeNode
-          {...props}
-          node={childNode}
-          key={childNode.id}
-          level={level + 1}
-        />
-      ))}
-    </ul>
-  );
+  handleTitleClick = event => {
+    event.preventDefault();
+    const { node, onNodeSelect, onToggle } = this.props;
+    onNodeSelect(node);
+    onToggle(node);
+  };
 
-  const renderAnchors = (nodeAnchors = []) => (
-    <ul>
-      {nodeAnchors.map(anchor => {
-        const currentAnchor = anchors[anchor];
-        return (
-          <li
-            key={currentAnchor.id}
-            role="button"
-            tabIndex={0}
-            onClick={() => onAnchorSelect(currentAnchor)}
-            onKeyPress={() => onAnchorSelect(currentAnchor)}
-            className={`${css.anchor} ${
-              currentAnchor.id === selectedAnchorId ? css.anchorSelected : ""
-            }`}
-          >
-            {currentAnchor.title}
-          </li>
-        );
-      })}
-    </ul>
-  );
+  handleIconClick = event => {
+    event.preventDefault();
+    const { node, onToggle } = this.props;
+    onToggle(node);
+  };
 
-  return (
-    <React.Fragment>
-      <li {...styles.node}>
-        {node.pages && <Icon {...styles.icon} onClick={() => onToggle(node)} />}
-        <div className={css.text}>
-          <span
-            {...styles.title}
-            role="link"
-            onClick={() => {
-              onNodeSelect(node);
-              onToggle(node);
-            }}
-            onKeyDown={keyBoardControl}
-            onKeyPress={keyBoardControl}
-            tabIndex={0}
-          >
-            {node.title}
-          </span>
-          {isNodeSelected && renderAnchors(node.anchors)}
-        </div>
-      </li>
-      {node.pages && node.isOpened && renderChildren()}
-    </React.Fragment>
-  );
-};
+  handleAnchorClick = (currentAnchor, event) => {
+    event.preventDefault();
+    this.props.onAnchorSelect(currentAnchor);
+  };
+
+  renderAnchors = (nodeAnchors = []) => {
+    const { anchors, selectedAnchorId } = this.props;
+    return (
+      nodeAnchors.length > 0 && (
+        <ul>
+          {nodeAnchors.map(anchor => {
+            const currentAnchor = anchors[anchor];
+            return (
+              <li
+                key={currentAnchor.id}
+                role="button"
+                tabIndex={0}
+                onClick={this.handleAnchorClick.bind(this, currentAnchor)}
+                onKeyPress={this.handleAnchorClick}
+                className={`${css.anchor} ${
+                  currentAnchor.id === selectedAnchorId
+                    ? css.anchorSelected
+                    : ""
+                }`}
+              >
+                {currentAnchor.title}
+              </li>
+            );
+          })}
+        </ul>
+      )
+    );
+  };
+
+  renderChildren = () => {
+    const { node, getChildNodes, level } = this.props;
+    const childrenStyles = {
+      className: `${css.children} ${node.isOpened ? css.childrenOpened : ""}`
+    };
+    return (
+      <ul {...childrenStyles} id={node.id}>
+        {getChildNodes(node).map(childNode => (
+          <TreeNode
+            {...this.props}
+            node={childNode}
+            key={childNode.id}
+            level={level + 1}
+          />
+        ))}
+      </ul>
+    );
+  };
+
+  render() {
+    const { node, level, selectedNodeId } = this.props;
+    const isNodeSelected = node.id === selectedNodeId;
+
+    const styles = {
+      node: {
+        className: `${css.node} ${isNodeSelected ? css.nodeSelected : ""}`,
+        style: { paddingLeft: getPaddingLeft(level, node.type) }
+      },
+      icon: {
+        className: `${css.icon} ${node.isOpened ? css.iconOpened : ""}`
+      },
+      title: {
+        className: `${css.title} ${isNodeSelected ? css.titleSelected : ""}`
+      },
+      children: {
+        className: `${css.children} ${node.isOpened ? css.childrenOpened : ""}`
+      }
+    };
+
+    return (
+      <React.Fragment>
+        <li {...styles.node}>
+          {node.pages && (
+            <Icon {...styles.icon} onClick={this.handleIconClick} />
+          )}
+          <div className={css.text}>
+            <span
+              {...styles.title}
+              role="link"
+              onClick={this.handleTitleClick}
+              onKeyDown={this.keyBoardControl}
+              onKeyPress={this.keyBoardControl}
+              tabIndex={0}
+            >
+              {node.title}
+            </span>
+            {isNodeSelected && this.renderAnchors(node.anchors)}
+          </div>
+        </li>
+        {node.pages && node.isOpened && this.renderChildren()}
+      </React.Fragment>
+    );
+  }
+}
 
 TreeNode.propTypes = {
   node: PropTypes.object.isRequired,
