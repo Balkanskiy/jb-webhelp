@@ -37,25 +37,29 @@ class TreeNode extends React.Component {
   renderAnchors = (nodeAnchors = []) => {
     const { anchors, onAnchorSelect, selectedAnchorId } = this.props;
     return (
-      <ul>
-        {nodeAnchors.map(anchor => {
-          const currentAnchor = anchors[anchor];
-          return (
-            <li
-              key={currentAnchor.id}
-              role="button"
-              tabIndex={0}
-              onClick={() => onAnchorSelect(currentAnchor)}
-              onKeyPress={() => onAnchorSelect(currentAnchor)}
-              className={`${css.anchor} ${
-                currentAnchor.id === selectedAnchorId ? css.anchorSelected : ""
-              }`}
-            >
-              {currentAnchor.title}
-            </li>
-          );
-        })}
-      </ul>
+      nodeAnchors.length > 0 && (
+        <ul>
+          {nodeAnchors.map(anchor => {
+            const currentAnchor = anchors[anchor];
+            return (
+              <li
+                key={currentAnchor.id}
+                role="button"
+                tabIndex={0}
+                onClick={() => onAnchorSelect(currentAnchor)}
+                onKeyPress={() => onAnchorSelect(currentAnchor)}
+                className={`${css.anchor} ${
+                  currentAnchor.id === selectedAnchorId
+                    ? css.anchorSelected
+                    : ""
+                }`}
+              >
+                {currentAnchor.title}
+              </li>
+            );
+          })}
+        </ul>
+      )
     );
   };
 
@@ -79,13 +83,7 @@ class TreeNode extends React.Component {
   };
 
   render() {
-    const {
-      node,
-      level,
-      onToggle,
-      onNodeSelect,
-      selectedNodeId,
-    } = this.props;
+    const { node, level, onToggle, onNodeSelect, selectedNodeId } = this.props;
 
     const isNodeSelected = node.id === selectedNodeId;
 

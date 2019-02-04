@@ -32,6 +32,10 @@ ul {
   padding: 0 0 5px 0;
 }
 
+*:focus {
+  outline: none;
+}
+
 .layout {
   display: flex;
   flex-flow: column nowrap;
