@@ -15,10 +15,13 @@ class TreeNode extends React.Component {
     isNodeSelected: false
   };
 
-  static getDerivedStateFromProps(props) {
-    return {
-      isNodeSelected: props.node.id === props.selectedNodeId
-    };
+  static getDerivedStateFromProps(props, state) {
+    if (props.selectedNodeId !== state.selectedNodeId) {
+      return {
+        isNodeSelected: props.node.id === props.selectedNodeId
+      };
+    }
+    return null;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
