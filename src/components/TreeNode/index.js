@@ -11,6 +11,25 @@ const KEY_CODES = {
 };
 
 class TreeNode extends React.Component {
+  state = {
+    isNodeSelected: false
+  };
+
+  static getDerivedStateFromProps(props) {
+    return {
+      isNodeSelected: props.node.id === props.selectedNodeId
+    };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.node.id === nextProps.selectedNodeId ||
+      this.state.isNodeSelected !== nextState.isNodeSelected ||
+      this.props.node.isOpened !== nextProps.node.isOpened ||
+      !!this.props.node.isOpened
+    );
+  }
+
   keyBoardControl = event => {
     const { type, keyCode } = event;
     const { node, onToggle, onNodeSelect } = this.props;
@@ -87,22 +106,24 @@ class TreeNode extends React.Component {
       className: `${css.children} ${node.isOpened ? css.childrenOpened : ""}`
     };
     return (
-      <ul {...childrenStyles} id={node.id}>
-        {getChildNodes(node).map(childNode => (
-          <TreeNode
-            {...this.props}
-            node={childNode}
-            key={childNode.id}
-            level={level + 1}
-          />
-        ))}
-      </ul>
+      getChildNodes.length > 0 && (
+        <ul {...childrenStyles} id={node.id}>
+          {getChildNodes(node).map(childNode => (
+            <TreeNode
+              {...this.props}
+              node={childNode}
+              key={childNode.id}
+              level={level + 1}
+            />
+          ))}
+        </ul>
+      )
     );
   };
 
   render() {
-    const { node, level, selectedNodeId } = this.props;
-    const isNodeSelected = node.id === selectedNodeId;
+    const { node, level } = this.props;
+    const { isNodeSelected } = this.state;
 
     const styles = {
       node: {
